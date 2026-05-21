@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta, MFIVE Logistics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2ec;
+    --yellow: #F1BD0B;
+    --border: rgba(245,242,236,0.08);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  section { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero { min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 80px 0 60px; border-bottom: 1px solid var(--border); overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(241,189,11,0.1) 0%, transparent 70%); pointer-events: none; }
+  .hero-logo {
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0s forwards;
+  }
+  .hero-logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+    opacity: 0.95;
+  }
+
+  .hero-label { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.1s forwards; }
+  .hero-label span { width: 24px; height: 1px; background: var(--yellow); display: inline-block; }
+  .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(42px, 8vw, 88px); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.9s 0.2s forwards; }
+  .hero h1 em { font-style: normal; color: var(--yellow); }
+  .hero-sub { max-width: 520px; font-size: clamp(16px, 2vw, 18px); font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.7; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.9s 0.35s forwards; }
+  .hero-cta { display: flex; align-items: center; gap: 8px; font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--white); text-decoration: none; border-bottom: 1px solid var(--yellow); padding-bottom: 4px; width: fit-content; opacity: 0; animation: fadeUp 0.9s 0.5s forwards; transition: gap 0.3s; }
+  .hero-cta:hover { gap: 16px; }
+  .hero-scroll-line { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 1px; height: 60px; background: linear-gradient(to bottom, transparent, var(--yellow)); opacity: 0; animation: fadeIn 1s 1.2s forwards; }
+
+  /* COMMONS */
+  .section-tag { font-size: 16px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .section-tag::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--yellow); }
+  .section-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(28px, 4vw, 44px); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 20px; }
+  .section-title em { font-style: normal; color: var(--yellow); }
+  .section-lead { font-size: 17px; font-weight: 300; color: rgba(245,242,236,0.9); max-width: 560px; line-height: 1.75; margin-bottom: 60px; }
+
+  /* DIAGNÓSTICO */
+  .section-diagnose { padding: 100px 0; border-bottom: 1px solid var(--border); }
+  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .pain-item { background: var(--black); padding: 32px; transition: background 0.3s; }
+  .pain-item:hover { background: #111; }
+  .pain-number { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.12em; color: var(--yellow); margin-bottom: 16px; opacity: 0.7; }
+  .pain-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.2; }
+  .pain-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.65; }
+
+  /* SOLUÇÃO */
+  .section-solution { padding: 100px 0; border-bottom: 1px solid var(--border); overflow: hidden; }
+  .solution-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; margin-bottom: 80px; }
+  .solution-text { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.8; }
+  .modules-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .module-row { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 24px; background: var(--black); padding: 28px 32px; transition: background 0.25s; cursor: default; }
+  .module-row:hover { background: #0f0f0f; }
+  .module-row:hover .module-arrow { opacity: 1; transform: translateX(0); }
+  .module-icon { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .module-name { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px; }
+  .module-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); }
+  .module-badge { font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 40px; flex-shrink: 0; }
+  .badge-core { background: rgba(241,189,11,0.15); color: var(--yellow); border: 1px solid rgba(241,189,11,0.3); }
+  .badge-plus { background: rgba(245,242,236,0.06); color: rgba(245,242,236,0.9); border: 1px solid var(--border); }
+  .module-arrow { font-size: 16px; opacity: 0; transform: translateX(-8px); transition: all 0.25s; color: var(--yellow); margin-left: 8px; }
+
+  /* DIFERENCIAIS */
+  .section-diff { padding: 100px 0; border-bottom: 1px solid var(--border); }
+  .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-top: 60px; }
+  .diff-card { padding: 36px 28px; border: 1px solid var(--border); position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .diff-card:hover { border-color: rgba(241,189,11,0.3); }
+  .diff-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .diff-card:hover::before { transform: scaleX(1); }
+  .diff-icon { font-size: 28px; margin-bottom: 20px; }
+  .diff-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .diff-text { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.7; }
+
+  /* ACESSO */
+  .section-access { padding: 100px 0; border-bottom: 1px solid var(--border); }
+  .access-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); margin-top: 60px; }
+  .access-card { background: var(--black); padding: 40px; }
+  .access-role { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .role-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .role-dot.admin { background: var(--yellow); }
+  .role-dot.dispatcher { background: #444; }
+  .role-name { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+  .role-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); margin-bottom: 28px; line-height: 1.6; }
+  .role-perms { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .role-perms li { display: flex; align-items: flex-start; gap: 10px; font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); }
+  .role-perms li::before { content: '→'; color: var(--yellow); flex-shrink: 0; font-size: 16px; margin-top: 2px; }
+
+  /* FASES */
+  .section-phases { padding: 100px 0; border-bottom: 1px solid var(--border); }
+  .phases-track { margin-top: 60px; }
+  .phases-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .phase-card { background: var(--black); border: 1px solid var(--border); padding: 0; position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .phase-card:hover { border-color: rgba(241,189,11,0.25); }
+  .phase-card.highlight { border-color: rgba(241,189,11,0.4); }
+  .phase-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .phase-num { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.12em; color: var(--yellow); opacity: 0.7; }
+  .phase-tag { font-size: 16px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 40px; background: rgba(241,189,11,0.12); color: var(--yellow); border: 1px solid rgba(241,189,11,0.25); }
+  .phase-body { padding: 28px; }
+  .phase-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 12px; line-height: 1.1; }
+  .phase-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.65; margin-bottom: 24px; }
+  .phase-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .phase-items li { font-size: 16px; font-weight: 400; color: rgba(245,242,236,0.9); display: flex; align-items: flex-start; gap: 8px; }
+  .phase-items li::before { content: '·'; color: var(--yellow); font-size: 18px; line-height: 1; flex-shrink: 0; }
+  .phase-time { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 16px; color: rgba(245,242,236,0.9); font-weight: 300; display: flex; align-items: center; gap: 6px; }
+  .phase-time strong { font-weight: 500; color: rgba(245,242,236,0.9); }
+  .phase-tbd { margin-top: 16px; padding: 12px 16px; background: rgba(241,189,11,0.05); border: 1px solid rgba(241,189,11,0.12); font-size: 16px; font-weight: 500; color: rgba(241,189,11,0.6); text-align: center; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* POTENCIAL */
+  .section-potential { padding: 100px 0; border-bottom: 1px solid var(--border); background: linear-gradient(to bottom, transparent, rgba(241,189,11,0.03), transparent); }
+  .potential-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; align-items: center; }
+  .potential-statement { font-family: 'Syne', sans-serif; font-size: clamp(24px, 3.5vw, 38px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+  .potential-statement em { font-style: normal; color: var(--yellow); }
+  .potential-facts { display: flex; flex-direction: column; gap: 24px; }
+  .fact-row { padding: 24px; border: 1px solid var(--border); display: flex; gap: 20px; align-items: flex-start; }
+  .fact-num { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 4vw, 42px); font-weight: 800; color: var(--yellow); line-height: 1; flex-shrink: 0; }
+  .fact-text { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.6; }
+  .fact-text strong { display: block; font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+
+  /* INVESTIMENTO */
+  .section-invest { padding: 100px 0; border-bottom: 1px solid var(--border); }
+  .invest-context { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-bottom: 64px; }
+  .invest-context-text { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.85; }
+  .invest-context-text p + p { margin-top: 16px; }
+  .invest-context-text strong { color: var(--white); font-weight: 500; }
+
+  .invest-compare { border: 1px solid var(--border); padding: 28px; }
+  .compare-title { font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,242,236,0.9); margin-bottom: 20px; }
+  .compare-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px; }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-label { font-weight: 300; color: rgba(245,242,236,0.9); }
+  .compare-val { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16px; }
+  .compare-val.bad { color: #e05252; }
+  .compare-val.good { color: #5ec97e; }
+
+  .invest-anchor {
+    margin-bottom: 40px;
+    padding: 32px 36px;
+    background: rgba(224,82,82,0.06);
+    border: 1px solid rgba(224,82,82,0.15);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    background-clip: padding-box;
+  }
+  .anchor-item {
+    padding: 24px;
+    background: rgba(10,10,10,0.8);
+    text-align: center;
+  }
+  .anchor-val { font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 3vw, 32px); font-weight: 800; color: #e05252; line-height: 1; margin-bottom: 8px; }
+  .anchor-label { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.4; }
+
+  .invest-anchor-caption {
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(245,242,236,0.9);
+    text-align: center;
+    font-style: italic;
+  }
+
+  .invest-main { border: 1px solid rgba(241,189,11,0.3); overflow: hidden; }
+  .invest-main-header { background: rgba(241,189,11,0.07); padding: 28px 36px; border-bottom: 1px solid rgba(241,189,11,0.12); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .invest-main-label { font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--yellow); margin-bottom: 4px; }
+  .invest-main-scope { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); }
+  .invest-main-body { padding: 36px; }
+
+  .invest-price-block { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 12px; flex-wrap: wrap; }
+  .invest-price { font-family: 'Space Grotesk', sans-serif; font-size: clamp(52px, 7vw, 76px); font-weight: 800; line-height: 1; letter-spacing: -0.03em; color: var(--white); }
+  .invest-price-context {
+    padding-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .invest-price-note { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.5; }
+  .invest-per-day {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(241,189,11,0.12);
+    border: 1px solid rgba(241,189,11,0.25);
+    padding: 4px 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--yellow);
+    width: fit-content;
+  }
+
+  .invest-installments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--border); border: 1px solid var(--border); margin-bottom: 32px; margin-top: 32px; }
+  .installment { background: var(--black); padding: 24px 20px; text-align: center; transition: background 0.25s; }
+  .installment:hover { background: #0d0d0d; }
+  .install-step { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,242,236,0.9); margin-bottom: 14px; }
+  .install-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 12px; line-height: 1.2; }
+  .install-val { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: var(--yellow); margin-bottom: 8px; line-height: 1; }
+  .install-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.5; }
+
+  .invest-includes { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin-bottom: 32px; }
+  .invest-includes li { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); display: flex; align-items: flex-start; gap: 8px; }
+  .invest-includes li::before { content: '✓'; color: #5ec97e; font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .invest-next-phases { border: 1px solid var(--border); overflow: hidden; }
+  .invest-next-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 16px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,242,236,0.9); }
+  .next-phases-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .next-phase { background: var(--black); padding: 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; transition: background 0.25s; }
+  .next-phase:hover { background: #0c0c0c; }
+  .next-phase + .next-phase { border-left: 1px solid var(--border); }
+  .next-phase-label { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--yellow); opacity: 0.6; margin-bottom: 4px; }
+  .next-phase-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .next-phase-desc { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); }
+  .next-phase-price { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; color: rgba(245,242,236,0.9); border: 1px solid var(--border); padding: 6px 14px; white-space: nowrap; letter-spacing: 0.06em; flex-shrink: 0; }
+
+  .invest-note { margin-top: 20px; padding: 20px 24px; background: rgba(241,189,11,0.04); border-left: 2px solid rgba(241,189,11,0.35); font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); line-height: 1.7; }
+  .invest-note strong { color: var(--white); font-weight: 500; }
+
+  @media (max-width: 768px) {
+    .invest-anchor { grid-template-columns: 1fr; }
+    .invest-price-block { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+
+  /* CLOSING */
+  .section-close { padding: 120px 0 100px; text-align: center; }
+  .close-eyebrow { font-size: 16px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 28px; }
+  .close-title { font-family: 'Syne', sans-serif; font-size: clamp(32px, 6vw, 68px); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 28px; }
+  .close-title em { font-style: normal; color: var(--yellow); }
+  .close-sub { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); max-width: 420px; margin: 0 auto 48px; line-height: 1.7; }
+  .close-sig { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 60px; padding-top: 40px; border-top: 1px solid var(--border); min-width: 200px; }
+  .sig-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+  .sig-role { font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); letter-spacing: 0.06em; }
+
+  /* FOOTER */
+  footer { padding: 24px 0; border-top: 1px solid var(--border); font-size: 16px; font-weight: 300; color: rgba(245,242,236,0.9); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .solution-intro, .access-wrap, .potential-grid, .invest-context { grid-template-columns: 1fr; gap: 32px; }
+    .phases-row, .next-phases-row { grid-template-columns: 1fr; }
+    .next-phase + .next-phase { border-left: none; border-top: 1px solid var(--border); }
+    .module-row { grid-template-columns: 44px 1fr; padding: 22px 20px; }
+    .module-badge, .module-arrow { display: none; }
+    .invest-installments { grid-template-columns: 1fr; }
+    .invest-includes { grid-template-columns: 1fr; }
+    .invest-main-header { flex-direction: column; align-items: flex-start; }
+    footer .container { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .container { padding: 0 16px; }
+    .hero { padding: 60px 0 50px; }
+    .section-diagnose, .section-solution, .section-diff, .section-access,
+    .section-phases, .section-potential, .section-invest, .section-close { padding: 72px 0; }
+    .pain-grid, .diff-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-logo">
+      <img src="assets/logo-mfive.png" alt="MFIVE Logistics" />
+    </div>
+    <div class="hero-label"><span></span> Proposta Exclusiva · MFIVE Logistics</div>
+    <h1>Dados confiáveis.<br>Decisão <em>na hora.</em></h1>
+    <p class="hero-sub">A M5 já tem a operação, os caminhões e os clientes. O que falta é uma única fonte de verdade, um sistema construído do zero onde cada informação é confiável antes de virar métrica.</p>
+    <a href="#diagnostico" class="hero-cta">Ver a proposta completa →</a>
+  </div>
+  <div class="hero-scroll-line"></div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section class="section-diagnose" id="diagnostico">
+  <div class="container">
+    <div class="section-tag reveal">01 · Diagnóstico</div>
+    <h2 class="section-title reveal">O problema não é<br>falta de dado.<br>É falta de <em>confiança</em><br>no dado.</h2>
+    <p class="section-lead reveal">Vocês têm dados. O que não têm é certeza de que eles estão certos. E métrica construída sobre dado errado não é métrica, é ruído.</p>
+
+    <div class="pain-grid reveal">
+      <div class="pain-item">
+        <div class="pain-number">01</div>
+        <div class="pain-title">Preenchimento manual gera erro em cadeia</div>
+        <div class="pain-desc">Dispatcher preenche errado no SuperDispatch, endereço, valor, contrato. Um campo fora do lugar compromete o cálculo financeiro da semana inteira. Corrigir isso consome horas que deveriam estar na operação.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">02</div>
+        <div class="pain-title">Planilha frágil como estrutura central</div>
+        <div class="pain-desc">A planilha de balanço é o coração financeiro da M5, e precisa ser duplicada todo mês, com fórmulas corrigidas manualmente. Um erro humano apaga semanas de trabalho. Não é sustentável para uma operação de 40 caminhões.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">03</div>
+        <div class="pain-title">Métricas só valem se os dados forem confiáveis</div>
+        <div class="pain-desc">Dashboard, relatório, ranking de dispatcher, nada disso tem valor se a informação que alimenta esses números for imprecisa. A prioridade não é criar métricas. É garantir que os dados de base sejam corretos.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">04</div>
+        <div class="pain-title">Sem visão macro, intervenção chega tarde</div>
+        <div class="pain-desc">Para saber o faturamento da semana ou quem está abaixo do esperado, alguém precisa juntar tudo na mão. A intervenção com dispatcher de baixa performance acontece depois que o dinheiro já foi embora.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">05</div>
+        <div class="pain-title">Dados sensíveis sem controle de acesso real</div>
+        <div class="pain-desc">Informações financeiras e operacionais da M5 passam por ferramentas genéricas sem separação de acesso por função. Quem não precisa saber, sabe. Isso já gerou problemas antes, e pode gerar de novo.</div>
+      </div>
+      <div class="pain-item">
+        <div class="pain-number">06</div>
+        <div class="pain-title">Sistemas separados, nenhuma fonte de verdade</div>
+        <div class="pain-desc">SuperDispatch, Excel e outras ferramentas funcionam em mundos separados. Não há uma fonte única e confiável de dados. A empresa opera no escuro porque ninguém confia completamente em nenhum número.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUÇÃO -->
+<section class="section-solution" id="solucao">
+  <div class="container">
+    <div class="section-tag reveal">02 · A Solução</div>
+    <div class="solution-intro">
+      <h2 class="section-title reveal" style="margin-bottom:0">Primeiro a base<br>certa. Depois<br>as <em>métricas.</em></h2>
+      <p class="solution-text reveal">A prioridade que vocês definiram na reunião é clara: antes de qualquer dashboard ou relatório, os dados precisam ser confiáveis. O sistema é construído com essa lógica, a entrada de dados é validada, centralizada e protegida. O que aparece nas telas é consequência disso, não o contrário.</p>
+    </div>
+    <div class="modules-list reveal">
+      <div class="module-row">
+        <div class="module-icon">🛡️</div>
+        <div class="module-info">
+          <div class="module-name">Entrada de Dados Centralizada e Validada</div>
+          <div class="module-desc">Dispatchers lançam as cargas em um único lugar, com campos obrigatórios e validações. Fim do erro de preenchimento que compromete o financeiro</div>
+        </div>
+        <div class="module-badge badge-core">Base</div>
+        <div class="module-arrow">→</div>
+      </div>
+      <div class="module-row">
+        <div class="module-icon">💰</div>
+        <div class="module-info">
+          <div class="module-name">Balanço Financeiro Automatizado</div>
+          <div class="module-desc">Substitui definitivamente a planilha. Receitas, pagamentos e saldo calculados automaticamente a partir dos dados lançados, sem fórmulas manuais</div>
+        </div>
+        <div class="module-badge badge-core">Core</div>
+        <div class="module-arrow">→</div>
+      </div>
+      <div class="module-row">
+        <div class="module-icon">📊</div>
+        <div class="module-info">
+          <div class="module-name">Dashboard Executivo em Tempo Real</div>
+          <div class="module-desc">Faturamento da semana, ranking de dispatchers, volume de cargas. Números confiáveis porque os dados que os alimentam são confiáveis</div>
+        </div>
+        <div class="module-badge badge-core">Core</div>
+        <div class="module-arrow">→</div>
+      </div>
+      <div class="module-row">
+        <div class="module-icon">👤</div>
+        <div class="module-info">
+          <div class="module-name">Performance Individual de Dispatchers</div>
+          <div class="module-desc">Cada dispatcher tem seus números. Compare, identifique quem precisa de suporte e intervenha rápido, sem esperar o fim da semana</div>
+        </div>
+        <div class="module-badge badge-core">Core</div>
+        <div class="module-arrow">→</div>
+      </div>
+      <div class="module-row">
+        <div class="module-icon">🔔</div>
+        <div class="module-info">
+          <div class="module-name">Alertas e Notificações Inteligentes</div>
+          <div class="module-desc">O sistema avisa quando a produtividade cai, quando uma carga está parada ou quando um pagamento está em aberto</div>
+        </div>
+        <div class="module-badge badge-plus">Plus</div>
+        <div class="module-arrow">→</div>
+      </div>
+      <div class="module-row">
+        <div class="module-icon">🔗</div>
+        <div class="module-info">
+          <div class="module-name">Integração com SuperDispatch</div>
+          <div class="module-desc">Os dados que já entram no SuperDispatch alimentam o sistema automaticamente, se a API permitir. Fim do preenchimento duplo</div>
+        </div>
+        <div class="module-badge badge-plus">Plus</div>
+        <div class="module-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS -->
+<section class="section-diff" id="diferenciais">
+  <div class="container">
+    <div class="section-tag reveal">03 · Por que diferente</div>
+    <h2 class="section-title reveal">Construído com<br>base no que foi<br><em>dito na reunião.</em></h2>
+    <div class="diff-grid">
+      <div class="diff-card reveal">
+        <div class="diff-icon">🔒</div>
+        <div class="diff-title">Confiança como fundação</div>
+        <div class="diff-text">Vocês já tiveram problemas com terceiros acessando informações que não deveriam. O sistema é construído com esse histórico em mente, acesso restrito por função, sem exceção.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">✅</div>
+        <div class="diff-title">Dado confiável antes de qualquer métrica</div>
+        <div class="diff-text">A entrada de dados é validada na origem. O sistema não deixa avançar com campos críticos errados. A planilha não quebra mais porque não existe mais planilha.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">📱</div>
+        <div class="diff-title">Visão macro no celular, toda manhã</div>
+        <div class="diff-text">Acorda, abre o app, sabe como foi a semana. Faturamento, performance por dispatcher, alertas. Sem planilha, sem perguntar para ninguém, sem esperar.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">📈</div>
+        <div class="diff-title">Escala com a operação</div>
+        <div class="diff-text">De 40 para 100 caminhões, o sistema cresce junto. Cada fase nova expande o que já existe, sem refazer do zero.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">🏢</div>
+        <div class="diff-title">Um ativo da M5, não uma assinatura</div>
+        <div class="diff-text">Vocês mencionaram o potencial de vender o sistema para outros carriers. Isso só é possível porque ele vai ser de vocês, não uma plataforma alugada com restrições.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">👁️</div>
+        <div class="diff-title">UX projetada para o uso real</div>
+        <div class="diff-text">Especialização em experiência do usuário aplicada ao fluxo real da operação de vocês. Não para parecer bonito em demo. Para ser usada todo dia, sem treinamento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACESSO -->
+<section class="section-access" id="acesso">
+  <div class="container">
+    <div class="section-tag reveal">04 · Controle de Acesso</div>
+    <h2 class="section-title reveal">Só vê o que<br>precisa ver.<br><em>Sem exceção.</em></h2>
+    <p class="section-lead reveal">A confiança foi levantada como ponto crítico na reunião. O sistema é construído com essa premissa: cada pessoa acessa exatamente o que o papel dela exige, nada além disso.</p>
+    <div class="access-wrap reveal">
+      <div class="access-card">
+        <div class="access-role">
+          <div class="role-dot admin"></div>
+          <div class="role-name">Sócios, Admin</div>
+        </div>
+        <p class="role-desc">Visão total da operação. Financeiro, performance, histórico e controles estratégicos. Tudo disponível em tempo real.</p>
+        <ul class="role-perms">
+          <li>Dashboard executivo completo com faturamento</li>
+          <li>Ranking e performance de todos os dispatchers</li>
+          <li>Balanço financeiro detalhado e histórico</li>
+          <li>Gestão de usuários e permissões</li>
+          <li>Relatórios por período, rota e cliente</li>
+          <li>Alertas e indicadores de operação</li>
+        </ul>
+      </div>
+      <div class="access-card" style="border-left: 1px solid var(--border);">
+        <div class="access-role">
+          <div class="role-dot dispatcher"></div>
+          <div class="role-name">Dispatchers, Operacional</div>
+        </div>
+        <p class="role-desc">Acesso focado nas tarefas diárias. Cadastram e atualizam as próprias cargas, sem acesso a dados financeiros ou de outros dispatchers.</p>
+        <ul class="role-perms">
+          <li>Cadastro e atualização de cargas próprias</li>
+          <li>Visualização do status das cargas em andamento</li>
+          <li>Histórico das próprias operações</li>
+          <li>Sem acesso a dados financeiros</li>
+          <li>Sem acesso à performance de outros</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FASES -->
+<section class="section-phases" id="fases">
+  <div class="container">
+    <div class="section-tag reveal">05 · Entrega em Fases</div>
+    <h2 class="section-title reveal">Começa a resolver<br>rápido. Evolui<br>sem parar.</h2>
+    <p class="section-lead reveal">Não esperamos meses para entregar valor. A primeira versão já resolve a maior dor e cada fase que segue expande o sistema com base no que foi construído.</p>
+    <div class="phases-track">
+      <div class="phases-row">
+        <div class="phase-card highlight reveal">
+          <div class="phase-header">
+            <div class="phase-num">FASE 01</div>
+            <div class="phase-tag">MVP · Agora</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-title">Base sólida e operação funcionando</div>
+            <p class="phase-desc">As dores mais urgentes resolvidas. A operação já funciona no sistema novo, com dados centralizados, dispatchers lançando cargas e sócios com visão macro.</p>
+            <ul class="phase-items">
+              <li>Dashboard executivo com faturamento semanal</li>
+              <li>Gestão de cargas com ciclo completo</li>
+              <li>Dois níveis de acesso com permissões</li>
+              <li>Ranking de dispatchers por performance</li>
+              <li>Balanço financeiro básico automatizado</li>
+            </ul>
+            <div class="phase-time">⏱ Estimativa: <strong>6 a 8 semanas</strong></div>
+          </div>
+        </div>
+        <div class="phase-card reveal">
+          <div class="phase-header">
+            <div class="phase-num">FASE 02</div>
+            <div class="phase-tag">Expansão</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-title">Inteligência e automação</div>
+            <p class="phase-desc">O sistema começa a trabalhar por vocês. Alertas, histórico navegável e visão aprofundada de cada parte do negócio.</p>
+            <ul class="phase-items">
+              <li>Alertas automáticos de baixa produtividade</li>
+              <li>Histórico financeiro completo por período</li>
+              <li>Gestão de frota e status dos caminhões</li>
+              <li>Relatórios exportáveis por período</li>
+              <li>Painel de clientes e carriers</li>
+            </ul>
+            <div class="phase-time">⏱ Estimativa: <strong>+4 a 6 semanas</strong></div>
+            <div class="phase-tbd">Investimento a definir após a Fase 1</div>
+          </div>
+        </div>
+        <div class="phase-card reveal">
+          <div class="phase-header">
+            <div class="phase-num">FASE 03</div>
+            <div class="phase-tag">Escala</div>
+          </div>
+          <div class="phase-body">
+            <div class="phase-title">Integração e produto vendável</div>
+            <p class="phase-desc">A M5 deixa de ser apenas usuária do sistema para ser dona de um produto que outras empresas vão querer.</p>
+            <ul class="phase-items">
+              <li>Integração via API com SuperDispatch</li>
+              <li>Portal do cliente para acompanhar cargas</li>
+              <li>Multi-empresa para vender o sistema</li>
+              <li>App mobile nativo</li>
+              <li>Automações e integrações avançadas</li>
+            </ul>
+            <div class="phase-time">⏱ Estimativa: <strong>+6 a 8 semanas</strong></div>
+            <div class="phase-tbd">Investimento a definir após a Fase 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POTENCIAL -->
+<section class="section-potential" id="potencial">
+  <div class="container">
+    <div class="section-tag reveal">06 · Visão de Futuro</div>
+    <div class="potential-grid">
+      <div class="potential-statement reveal">
+        Vocês já disseram que querem <em>vender</em> esse sistema para outros carriers. Vamos construir pensando nisso desde o início.
+      </div>
+      <div class="potential-facts">
+        <div class="fact-row reveal">
+          <div class="fact-num">+$55</div>
+          <div class="fact-text">
+            <strong>O que seus clientes pagam pelo SuperDispatch</strong>
+            Cada empresa de Car Hauler que usa a plataforma deles paga isso todo mês. Com um sistema próprio da M5, essa conta pode se tornar receita para vocês.
+          </div>
+        </div>
+        <div class="fact-row reveal">
+          <div class="fact-num">∞</div>
+          <div class="fact-text">
+            <strong>Controle total sobre os próprios dados</strong>
+            Nenhuma plataforma de terceiro decide o que você pode ver, exportar ou personalizar. Os dados da M5 pertencem à M5, hoje e para sempre.
+          </div>
+        </div>
+        <div class="fact-row reveal">
+          <div class="fact-num">∞</div>
+          <div class="fact-text">
+            <strong>De sistema interno a produto de mercado</strong>
+            A Fase 3 já é construída pensando em multi-empresa. A M5 pode licenciar o sistema para outros carriers, exatamente como o SuperDispatch faz hoje, só que com vocês no controle.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section class="section-invest" id="investimento">
+  <div class="container">
+    <div class="section-tag reveal">07 · Investimento</div>
+    <h2 class="section-title reveal">Quanto custa<br>continuar como<br><em>está?</em></h2>
+
+    <div class="invest-context">
+      <div class="invest-context-text reveal">
+        <p>Antes de falar no valor do sistema, vale olhar pro que já está custando não ter um. Toda semana a operação perde tempo corrigindo erro de preenchimento, tomando decisão sem dado confiável e tentando entender o financeiro numa planilha frágil.</p>
+        <p>Isso não aparece em nenhuma fatura. Mas está saindo caro todo mês.</p>
+        <p>O que estamos propondo é um ativo. Um sistema que pertence à M5, que resolve os problemas reais da operação e que serve de base para tudo que vem depois.</p>
+        <p><strong>A Fase 1 é o começo, não o fim.</strong> Após o MVP entregue, as Fases 2 e 3 são propostas juntos, com base no que foi construído e no que a M5 precisar em seguida.</p>
+      </div>
+
+      <div class="invest-compare reveal">
+        <div class="compare-title">Cenário atual da M5</div>
+        <div class="compare-row">
+          <span class="compare-label">Monday / AirTable por ano</span>
+          <span class="compare-val bad">$1.200+</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Horas corrigindo erros de dispatcher</span>
+          <span class="compare-val bad">Toda semana</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Decisões sem dado confiável</span>
+          <span class="compare-val bad">Toda semana</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Visibilidade macro da operação</span>
+          <span class="compare-val bad">Inexistente</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Infra do sistema M5 por mês</span>
+          <span class="compare-val good">~$80</span>
+        </div>
+        <div class="compare-row">
+          <span class="compare-label">Propriedade do sistema</span>
+          <span class="compare-val good">100% de vocês</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="invest-main reveal">
+      <div class="invest-main-header">
+        <div>
+          <div class="invest-main-label">MVP · Fase 1</div>
+          <div class="invest-main-scope">Dashboard executivo, gestão de cargas, balanço financeiro e controle de acesso por perfil</div>
+        </div>
+        <div style="font-size: 16px;font-weight:300;color: rgba(245,242,236,0.9)">Entrega estimada em 6 a 8 semanas</div>
+      </div>
+
+      <div class="invest-main-body">
+
+        <div class="invest-anchor">
+          <div class="anchor-item">
+            <div class="anchor-val">~5h</div>
+            <div class="anchor-label">por semana corrigindo erros de dispatcher no financeiro</div>
+          </div>
+          <div class="anchor-item">
+            <div class="anchor-val">0</div>
+            <div class="anchor-label">relatórios automáticos disponíveis hoje para os sócios</div>
+          </div>
+          <div class="anchor-item">
+            <div class="anchor-val">∞</div>
+            <div class="anchor-label">planilhas duplicadas manualmente todo início de mês</div>
+          </div>
+        </div>
+        <div class="invest-anchor-caption">O problema já tem custo. O sistema tem solução.</div>
+
+        <div class="invest-price-block">
+          <div class="invest-price">$7.000</div>
+          <div class="invest-price-context">
+            <div class="invest-price-note">Investimento único para o MVP completo</div>
+            <div class="invest-per-day">⚡ Menos de $125 por dia de desenvolvimento</div>
+          </div>
+        </div>
+
+        <div class="invest-installments">
+          <div class="installment">
+            <div class="install-step">Passo 01</div>
+            <div class="install-name">Você aprova,<br>a gente começa</div>
+            <div class="install-val">$2.800</div>
+            <div class="install-desc">Contrato assinado. Desenvolvimento inicia imediatamente.</div>
+          </div>
+          <div class="installment">
+            <div class="install-step">Passo 02</div>
+            <div class="install-name">Sistema<br>no ar</div>
+            <div class="install-val">$2.800</div>
+            <div class="install-desc">MVP funcionando, testado e aprovado por vocês.</div>
+          </div>
+          <div class="installment">
+            <div class="install-step">Passo 03</div>
+            <div class="install-name">Missão<br>cumprida</div>
+            <div class="install-val">$1.400</div>
+            <div class="install-desc">Ajustes finais, refinamentos e entrega oficial.</div>
+          </div>
+        </div>
+
+        <ul class="invest-includes">
+          <li>Dashboard executivo em tempo real</li>
+          <li>Gestão completa de cargas e ciclo de vida</li>
+          <li>Balanço financeiro automatizado</li>
+          <li>Ranking de performance por dispatcher</li>
+          <li>Dois níveis de acesso com permissões</li>
+          <li>Responsivo para celular e tablet</li>
+          <li>30 dias de suporte após entrega</li>
+          <li>Base preparada para as próximas fases</li>
+        </ul>
+
+        <div class="invest-next-phases">
+          <div class="invest-next-header">O que vem depois, Fases 2 e 3</div>
+          <div class="next-phases-row">
+            <div class="next-phase">
+              <div class="next-phase-info">
+                <div class="next-phase-label">Fase 02 · Expansão</div>
+                <div class="next-phase-name">Inteligência e automação</div>
+                <div class="next-phase-desc">Alertas, histórico, frota, relatórios exportáveis</div>
+              </div>
+              <div class="next-phase-price">A definir após a Fase 1</div>
+            </div>
+            <div class="next-phase">
+              <div class="next-phase-info">
+                <div class="next-phase-label">Fase 03 · Escala</div>
+                <div class="next-phase-name">Produto vendável</div>
+                <div class="next-phase-desc">API SuperDispatch, multi-empresa, app mobile</div>
+              </div>
+              <div class="next-phase-price">A definir após a Fase 2</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="invest-note">
+          Os valores das Fases 2 e 3 serão propostos após a entrega e aprovação do MVP, com base no que foi construído e nas prioridades seguintes da M5. <strong>Nenhum valor adicional é cobrado além do que está acordado nesta proposta.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="section-close">
+  <div class="container">
+    <div class="close-eyebrow reveal">08 · A decisão</div>
+    <h2 class="close-title reveal">A operação<br>merece uma base<br><em>confiável.</em></h2>
+    <p class="close-sub reveal">Vocês já sabem o que precisa mudar. Disseram isso na reunião. O próximo passo é transformar isso em sistema, e começar a tomar decisões com dados que vocês de fato confiam.</p>
+    <div class="close-sig reveal">
+      <div class="sig-name">Gustavo Portela</div>
+      <div class="sig-role">UX · Produto · Desenvolvimento</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container" style="display:flex;justify-content:space-between;width:100%;flex-wrap:wrap;gap:8px">
+    <span>Proposta confidencial · MFIVE Logistics</span>
+    <span>Abril 2026</span>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const siblings = [...entry.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+        const idx = siblings.indexOf(entry.target);
+        setTimeout(() => entry.target.classList.add('visible'), idx * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
